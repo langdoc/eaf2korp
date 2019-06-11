@@ -79,3 +79,5 @@ def eaf2korp(elan_file_path, language = "kpv", transcription_tier = "orthT"):
 
         tree = ET.ElementTree(root)
         tree.write(session_name + ".vrt", encoding="UTF-8")
+
+eaf2korp(elan_file_path = "korp_example.eaf", language = "kpv", transcription_tier = "orthT")
