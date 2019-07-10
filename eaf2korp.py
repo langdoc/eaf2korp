@@ -3,7 +3,7 @@ from uralicNLP.cg3 import Cg3
 from uralicNLP import uralicApi
 from nltk.tokenize import word_tokenize
 import pympi
-import xml.etree.ElementTree as ET
+import xml.etree.cElementTree as ET
 import re
 
 def eaf2korp(elan_file_path, language = "kpv", transcription_tier = "orthT"):
@@ -22,7 +22,7 @@ def eaf2korp(elan_file_path, language = "kpv", transcription_tier = "orthT"):
     
     annotations = []
 
-    pos_tags = ['A', 'Adp', 'Adv', 'CS', 'CC', 'CONJ', 'Det', 'Interj', 'N', 'Num', 'Pcle', 'Po', 'Pr', 'Pron', 'Qnt', 'V', 'CLB']
+    pos_tags = set(['A', 'Adp', 'Adv', 'CS', 'CC', 'CONJ', 'Det', 'Interj', 'N', 'Num', 'Pcle', 'Po', 'Pr', 'Pron', 'Qnt', 'V', 'CLB'])
 
     for transcription_tier in transcription_tiers:
 
