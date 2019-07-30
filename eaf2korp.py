@@ -1,3 +1,6 @@
+# Niko Partanen (Language Bank of Finland / IKDP-2 research project)
+# See LICENSE and README for further information.
+
 from pathlib import Path
 from uralicNLP.cg3 import Cg3
 from uralicNLP import uralicApi
@@ -5,6 +8,38 @@ from nltk.tokenize import word_tokenize
 import pympi
 import xml.etree.ElementTree as ET
 import re
+
+# This function takes from uralicNLP's output those
+# lemmas that all analysis agree on. If there is no
+# agreement, underline is returned to mark empty spot.
+
+def get_lonely_lemmas(ambiguities):
+    lemmas = set([])
+    for analysis in ambiguities:
+        analysis_components = analysis[0].split("+")
+        lemmas.add(analysis_components[0])
+    if len(lemmas) == 1:
+        return(''.join(sorted(lemmas)))
+    else:
+        return("_")
+
+# This function returns all those tags that the different
+# analysis agree on. There are multiple ways to resolve this question
+# but this could be one way to deal with it. Another solution would
+# be to add into 
+
+def get_agreed_tags(ambiguities):
+    tags = []
+    for analysis in ambiguities:
+        analysis_components = analysis[0].split("+")
+        analysis_components.pop(0) # removes the lemma
+        tags.append(analysis_components)
+    agreed_tags = set.intersection(*map(set,tags)) # picks the shared tags
+    agreed_tags_str = ' '.join(agreed_tags)
+    if agreed_tags_str:
+        return(agreed_tags_str)
+    else:
+        return("_")
 
 # This writes some of the annotations into ELAN file immediately,
 # now it seems that more reusable approach could be to write first a plain
