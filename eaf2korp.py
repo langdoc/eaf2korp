@@ -74,10 +74,14 @@ def get_agreed_tags(ambiguities):
         analysis_components = analysis[0].split("+")
         analysis_components.pop(0) # removes the lemma
         tags.append(analysis_components)
-    agreed_tags = set.intersection(*map(set,tags)) # picks the shared tags
-    agreed_tags_str = ' '.join(agreed_tags)
-    if agreed_tags_str:
-        return(agreed_tags_str)
+    # print(tags)
+    if tags:
+        agreed_tags = set.intersection(*map(set,tags)) # picks the shared tags
+        agreed_tags_str = ' '.join(agreed_tags)
+        if agreed_tags_str:
+            return(agreed_tags_str)
+        else:
+            return("_")
     else:
         return("_")
 
