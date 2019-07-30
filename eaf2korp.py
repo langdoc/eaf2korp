@@ -41,6 +41,34 @@ def get_agreed_tags(ambiguities):
     else:
         return("_")
 
+# This function takes a VRT file with two columns: ID and FORM. It leaves metadata
+# at higher levels untouched. It takes the VRT file and runs uralicNLP analysis into it.
+# Lemma and morphological tags are written in new columns. However, they are processed
+# with helper functions above, so only the agreed parts between different analysis are
+# taken into account.
+
+def annotate_vrt(vrt_file_path, language):
+    
+    session_name = Path(vrt_file_path).stem
+    
+    tree = ET.parse(vrt_file_path)
+    root = tree.getroot()
+
+    for sentence in root.findall('sentence'):
+
+        annotated_text = "\n"
+
+        for line in sentence.text.splitlines():
+            if line:
+                line_content = line.split("\t")
+                analysis = uralicApi.analyze(line_content[1], language)
+                line_text = line_content[0] + "\t" + line_content[1] + "\t" + get_lonely_lemmas(analysis) + "\t" + get_agreed_tags(analysis) + "\n"
+                annotated_text += line_text
+        sentence.text = annotated_text
+        
+    tree.write(session_name + "-annotated.vrt", encoding="UTF-8")
+    
+
 # This writes some of the annotations into ELAN file immediately,
 # now it seems that more reusable approach could be to write first a plain
 # VRT file, and then write annotations into that.
