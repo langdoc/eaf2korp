@@ -6,7 +6,11 @@ import pympi
 import xml.etree.ElementTree as ET
 import re
 
-def eaf2korp(elan_file_path, language = "kpv", transcription_tier = "orthT"):
+# This writes some of the annotations into ELAN file immediately,
+# now it seems that more reusable approach could be to write first a plain
+# VRT file, and then write annotations into that.
+
+def eaf2korp_annotate(elan_file_path, language = "kpv", transcription_tier = "orthT"):
     
     # This needs some check on whether the language models have been downloaded
     
@@ -80,4 +84,4 @@ def eaf2korp(elan_file_path, language = "kpv", transcription_tier = "orthT"):
         tree = ET.ElementTree(root)
         tree.write(session_name + ".vrt", encoding="UTF-8")
 
-eaf2korp(elan_file_path = "korp_example.eaf", language = "kpv", transcription_tier = "orthT")
+# eaf2korp(elan_file_path = "korp_example.eaf", language = "kpv", transcription_tier = "orthT")
