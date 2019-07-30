@@ -13,3 +13,7 @@ The pipeline is built so that annotations are parsed from ELAN files using [pymp
 - Other morphological tags, besides POS, need to be added into other column. This also needs some decisions of what all we want, and how ambiguity is handled on that level.
 - The utterances could be restructured into sentences by following punctuation characters. This would make the content more readable in Korp.
 - The utterances, or whatever units we deal with, need to be ordered somehow in Korp. The best order would probably be the start time.
+
+## Ideas
+
+- There should maybe be two columns, pre- and post-CG
