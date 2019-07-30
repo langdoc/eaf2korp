@@ -106,7 +106,7 @@ def annotate_vrt(vrt_file_path, language):
                 annotated_text += line_text
         sentence.text = annotated_text
         
-    tree.write(session_name + "-annotated.vrt", encoding="UTF-8")
+    tree.write(vrt_file_path, encoding="UTF-8")
     
 
 # This writes some of the annotations into ELAN file immediately,
