@@ -24,27 +24,31 @@ def eaf2vrt(elan_file_path, vrt_file_path, transcription_tier = "orthT"):
     
     for transcription_tier in transcription_tiers:
 
-        annotation_values = elan_file.get_annotation_data_for_tier(transcription_tier)
+            annotation_values = elan_file.get_annotation_data_for_tier(transcription_tier)
 
-        for annotation_value in annotation_values:
+    tier_parameters = elan_file.get_parameters_for_tier(transcription_tier)
+ 
+    for annotation_value in annotation_values:
+        
+        text_content = annotation_value[2]
+        text_content = re.sub("…", ".", text_content) # It seems word_tokenize doesn't handle "…"
+        text_content = re.sub("\[\[unclear\]\]", "", text_content)
 
-            text_content = annotation_value[2]
-            text_content = re.sub("…", ".", text_content) # It seems word_tokenize doesn't handle "…"
-            text_content = re.sub("\[\[unclear\]\]", "", text_content)
+        words = word_tokenize(text_content)
 
-            words = word_tokenize(text_content)
+        word_ids = range(1, len(words) + 1)
 
-            word_ids = range(1, len(words) + 1)
+        sentence_text = "\n"
 
-            sentence_text = "\n"
+        for word_id, token in zip(word_ids, words):
+            line_text = str(word_id) + '\t' + token + '\n'
+            sentence_text += line_text
 
-            for word_id, token in zip(word_ids, words):
-                line_text = str(word_id) + '\t' + token + '\n'
-                sentence_text += line_text
-                
-            # Metadata goes here, lots of work expected.
+        # Metadata goes here, lots of work expected.
+        # At the moment metadata is picked from ELAN file,
+        # the question is how we handle the external metadata.
 
-            ET.SubElement(root, "sentence", name="1").text = sentence_text
+        ET.SubElement(root, "sentence", start=str(annotation_value[0]), end=str(annotation_value[1]), annotation_id=annotation_value[3], participant=tier_parameters['PARTICIPANT']).text = sentence_text
 
         tree = ET.ElementTree(root)
         tree.write(vrt_file_path, encoding="UTF-8")
