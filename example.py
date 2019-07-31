@@ -1,8 +1,6 @@
-from pathlib import Path
 from uralicNLP.cg3 import Cg3
 from uralicNLP import uralicApi
 import xml.etree.cElementTree as ET
-import re
 
 input_xml = "some_file.xml"
 output_xml = "new_file.xml"
