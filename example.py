@@ -58,7 +58,7 @@ for sentence in root.findall('p/sentence'):
             line_content = line.split("\t")
             # print(line_content) # Uncommenting this is useful in checking where the script goes
             analysis = uralicApi.analyze(line_content[1], "kpv")
-            line_text = line_content[0] + "\t" + line_content[1] + "\t" + get_lonely_lemmas(analysis) + "\t" + get_agreed_tags(analysis) + "\n"
+            line_text = line_content[0] + "\t" + line_content[1] + "\t" + line_content[2] + "\t" + get_lonely_lemmas(analysis) + "\t" + get_agreed_tags(analysis) + "\n"
             annotated_text += line_text
     sentence.text = annotated_text
 
